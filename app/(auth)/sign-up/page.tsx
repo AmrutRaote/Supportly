@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SignUpForm } from "@/modules/components/sign-up-form";
+import { SignUpForm } from "@/modules/auth/components/sign-up-form";
 
 export default async function SignUpPage() {
   await requireUnauth();

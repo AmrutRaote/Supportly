@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpAction } from "@/modules/auth/actions";
-import { signUpSchema, type SignUpInput } from "../schemas";
+import { signUpSchema, type SignUpInput } from "../../schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +16,8 @@ import {
 } from "@/components/ui/field";
 
 export function SignUpForm() {
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -24,11 +27,24 @@ export function SignUpForm() {
     },
   });
 
+  const onSubmit = async (data: SignUpInput) => {
+    setServerError(null);
+    const result = await signUpAction(data);
+    if (result?.error) {
+      setServerError(result.error);
+    }
+  };
+
   return (
     <form
       className="flex flex-col gap-6"
-      onSubmit={form.handleSubmit((data) => signUpAction(data))}
+      onSubmit={form.handleSubmit(onSubmit)}
     >
+      {serverError && (
+        <div className="rounded-lg bg-destructive/15 p-3 text-sm text-destructive font-medium">
+          {serverError}
+        </div>
+      )}
       <FieldGroup>
         <Field data-invalid={!!form.formState.errors.name}>
           <FieldLabel htmlFor="name">Name</FieldLabel>

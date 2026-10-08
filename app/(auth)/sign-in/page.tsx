@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SignInForm } from "@/modules/components/sign-in-form";
+import { SignInForm } from "@/modules/auth/components/sign-in-form";
 
 export default async function SignInPage() {
   await requireUnauth();

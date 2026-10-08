@@ -15,25 +15,25 @@ export async function getCurrentUser() {
 }
 
 /** Returns the current user plus their database role (USER / ADMIN). */
-// export async function getCurrentUserWithRole() {
-//   const session = await auth.api.getSession({
-//     headers: await headers(),
-//   });
+export async function getCurrentUserWithRole() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-//   if (!session?.user) {
-//     return null;
-//   }
+  if (!session?.user) {
+    return null;
+  }
 
-//   const dbUser = await prisma.user.findUnique({
-//     where: { id: session.user.id },
-//     select: { role: true },
-//   });
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true },
+  });
 
-//   return {
-//     ...session.user,
-//     role: dbUser?.role ?? "USER",
-//   };
-// }
+  return {
+    ...session.user,
+    role: dbUser?.role ?? "USER",
+  };
+}
 
 export async function requireAuth() {
   const session = await auth.api.getSession({
@@ -58,23 +58,43 @@ export async function requireUnauth() {
 }
 
 export async function signInAction(data: SignInInput) {
-  const { email, password } = signInSchema.parse(data);
+  let errorMsg: string | null = null;
 
-  await auth.api.signInEmail({
-    body: { email, password },
-    headers: await headers(),
-  });
+  try {
+    const { email, password } = signInSchema.parse(data);
+
+    await auth.api.signInEmail({
+      body: { email, password },
+      headers: await headers(),
+    });
+  } catch (err: any) {
+    errorMsg = err?.body?.message || err?.message || "Invalid email or password";
+  }
+
+  if (errorMsg) {
+    return { error: errorMsg };
+  }
 
   redirect("/");
 }
 
 export async function signUpAction(data: SignUpInput) {
-  const { name, email, password } = signUpSchema.parse(data);
+  let errorMsg: string | null = null;
 
-  await auth.api.signUpEmail({
-    body: { name, email, password },
-    headers: await headers(),
-  });
+  try {
+    const { name, email, password } = signUpSchema.parse(data);
+
+    await auth.api.signUpEmail({
+      body: { name, email, password },
+      headers: await headers(),
+    });
+  } catch (err: any) {
+    errorMsg = err?.body?.message || err?.message || "Failed to create account";
+  }
+
+  if (errorMsg) {
+    return { error: errorMsg };
+  }
 
   redirect("/");
 }

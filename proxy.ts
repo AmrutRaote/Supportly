@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
-import { isAuthRoute } from "./app/(auth)/constants";
+import { isAuthRoute } from "@/modules/auth/constants";
 
 
 export function proxy(request: NextRequest) {
