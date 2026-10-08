@@ -1,7 +1,9 @@
 import { run } from "@openai/agents";
 import prisma from "@/lib/db";
-import { supportAgent } from "./agents";
 import { messageToInput } from "./message-to-input";
+import { SupportContext } from "./context";
+import { triageAgent } from "./agents/triage-agent";
+import { MESSAGE_ROLE } from "@/lib/generated/prisma/enums";
 
 async function saveUserMessage(conversationId: string, content: string) {
   await prisma.message.create({
@@ -16,12 +18,16 @@ async function saveUserMessage(conversationId: string, content: string) {
 async function saveAssistantMessage(
   conversationId: string,
   content: string,
+  activeAgentName: string | null,
+  toolsUsed: string | null,
 ) {
   await prisma.message.create({
     data: {
       conversationId,
       content,
-      role: "ASSISTANT",
+      role: MESSAGE_ROLE.ASSISTANT,
+      activeAgentName,
+      toolsUsed 
     },
   });
 
@@ -38,32 +44,78 @@ async function getConversationMessages(conversationId: string) {
   });
 }
 
+type ChatStreamEvent = 
+  | { type: "agent";  name: string}
+  | { type: "tool";  name: string}
+  | { type: "text";  name: string}
+
+function getToolName(item: {
+  type?: string;
+  rawItem?: { type?: string; name?: string };
+}) {
+  if (
+    item.type === "tool_call_item" &&
+    item.rawItem?.type === "function_call" &&
+    item.rawItem.name
+  ) {
+    return item.rawItem.name;
+  }
+
+  return null;
+}
+function encodeEvent(event: ChatStreamEvent) {
+  return new TextEncoder().encode(`${JSON.stringify(event)}\n`)
+}
+
+
+
 export async function runStreamingSupportChat(
   conversationId: string,
   userMessage: string,
+  context: SupportContext,
 ) {
   await saveUserMessage(conversationId, userMessage);
 
   const messages = await getConversationMessages(conversationId);
 
-  const agentStream = await run(supportAgent, messageToInput(messages), {
+  const agentStream = await run(triageAgent, messageToInput(messages), {
     stream: true,
+    context
   });
 
   const textStream = agentStream.toTextStream();
   let assistantReply = "";
+  let activeAgentName: string | null = triageAgent.name
+  const toolsUsed: string[] = []
 
-  return new ReadableStream<string>({
+  return new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
-        for await (const chunk of textStream) {
-          assistantReply += chunk;
-          controller.enqueue(chunk);
+        if (activeAgentName) {
+          controller.enqueue(
+            encodeEvent({type: "agent", name:activeAgentName})
+          )
         }
 
-        await agentStream.completed;
-        await saveAssistantMessage(conversationId, assistantReply);
-        controller.close();
+        for await (const event of agentStream) {
+          if (event.type === "agent_updated_stream_event") {
+            activeAgentName = event.agent.name
+            controller.enqueue(
+              encodeEvent({ type: "text", name: activeAgentName})
+            )
+          }
+          
+          if (event.type === "raw_model_stream_event" && event.data.type == "output_text_delta") {
+            const delta = event.data.delta
+            controller.enqueue(
+              encodeEvent({ type: "text", delta: delta})
+            )
+          }
+        }
+
+        await agentStream.completed
+        await saveAssistantMessage(conversationId, assistantReply, activeAgentName, toolsUsed)
+        
       } catch (error) {
         controller.error(error);
       }
