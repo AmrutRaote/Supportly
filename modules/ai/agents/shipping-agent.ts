@@ -3,11 +3,11 @@ import type { SupportContext } from "../context"
 import {
   createInputGuardrail,
   createOutputGuardrail,
-} from "../guardrails";
+} from "../gaurdrails";
 import { withHandoffInstructions } from "../prompts";
 import { shippingTools } from "../tools/shipping-tools";
-// import { shippingTools } from "../tools/shipping-tools";
 import { escalationTools } from "../tools/escalation-tools";
+
 
 const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 

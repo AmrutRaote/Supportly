@@ -1,11 +1,8 @@
 import { Agent } from "@openai/agents";
 import type { SupportContext } from "../context"
-import {
-  createInputGuardrail,
-  createOutputGuardrail,
-} from "../guardrails";
 import { withHandoffInstructions } from "../prompts";
 import { technicalTools } from "../tools/technical-tools";
+import { createInputGuardrail, createOutputGuardrail } from "../gaurdrails";
 import { escalationTools } from "../tools/escalation-tools";
 
 const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";

@@ -2,6 +2,8 @@ import { Agent } from "@openai/agents"
 import { withHandoffInstructions } from "../prompts"
 import type { SupportContext } from "../context"
 import { billingTools } from "../tools/billing-tool";
+import { createInputGuardrail, createOutputGuardrail } from "../gaurdrails";
+import { escalationTools } from "../tools/escalation-tools";
 
 const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
@@ -25,4 +27,3 @@ export const billingAgent = new Agent<SupportContext>({
   inputGuardrails: [createInputGuardrail("Billing Agent")],
   outputGuardrails: [createOutputGuardrail("Billing Agent")],
 });
-t

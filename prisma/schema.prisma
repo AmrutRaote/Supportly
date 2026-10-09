@@ -37,6 +37,7 @@ model User {
   accounts      Account[]
   conversations Conversation[]
   tickets       Ticket[]
+  messageCount  Int            @default(0)
 
   @@unique([email])
   @@map("user")

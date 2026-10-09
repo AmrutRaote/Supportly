@@ -17,6 +17,14 @@ export async function getConversations() {
 export async function createConversation(title = "New chat") {
   const session = await requireAuth();
 
+  const count = await prisma.conversation.count({
+    where: { userId: session.user.id }
+  });
+
+  if (count >= 4) {
+    throw new Error("Maximum of 4 conversations allowed.");
+  }
+
   return prisma.conversation.create({
     data: {
       title,

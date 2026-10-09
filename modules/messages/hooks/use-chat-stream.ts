@@ -1,3 +1,4 @@
+// use-chat-stream.ts brings the AI to life by animating its thoughts, tool usage, and text on the screen in real-time.
 "use client";
 
 import { useState } from "react";
@@ -43,6 +44,7 @@ export function useChatStream(onMessagesChange: () => Promise<unknown>) {
         throw new Error(errorText || "Failed to send message");
       }
 
+      // hook checks the X-Conversation-Locked header. If it's locked, it stops the user from continuing the chat.
       const wasLocked = response.headers.get("X-Conversation-Locked") === "true";
 
       if (!wasLocked) {
@@ -50,8 +52,8 @@ export function useChatStream(onMessagesChange: () => Promise<unknown>) {
       }
 
       const fullText = await readChatStream(response, {
-        onAgent: setStreamingAgentName,
-        onTool: (toolName) => {
+        onAgent: setStreamingAgentName,   // set the agent name to display on the frontend
+        onTool: (toolName) => {  // set the tool name to display on the frontend
           setStreamingTools((current) =>
             current.includes(toolName) ? current : [...current, toolName],
           );

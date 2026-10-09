@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { MoreHorizontalIcon, PlusIcon, SendIcon } from "lucide-react";
+import { MoreHorizontalIcon, PlusIcon, SendIcon, MenuIcon, MailIcon } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import {
     createConversation,
@@ -22,6 +23,7 @@ import Link from "next/link";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { MarkdownMessage } from "@/components/ui/markdown-message";
 import { ToolBadgeList } from "@/components/ui/tool-badge";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import {
     Message,
     MessageContent,
@@ -55,10 +57,11 @@ export function ChatApp({ isAdmin = false }: { isAdmin?: boolean }) {
     const { data: conversations = [], refetch: refetchConversations } =
         useConversations();
 
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [selectedId, setSelectedId] = useState<string | null>(null); // check currently selected chat
     const [renameId, setRenameId] = useState<string | null>(null);
     const [renameTitle, setRenameTitle] = useState("");
     const [isCreating, setIsCreating] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const activeId =
         selectedId && conversations.some((conversation) => conversation.id === selectedId)
@@ -104,94 +107,148 @@ export function ChatApp({ isAdmin = false }: { isAdmin?: boolean }) {
         await refetchConversations();
     }
 
-    return (
-        <div className="flex h-svh min-h-0 bg-background">
-            <aside className="flex w-72 shrink-0 flex-col border-r">
-                <div className="flex items-center justify-between gap-3 border-b px-5 py-4">
-                    <h1 className="text-base font-semibold tracking-tight">Supportly</h1>
-                    <div className="flex items-center gap-2">
-                        {isAdmin ? (
-                            <Link
-                                href="/admin/tickets"
-                                className="text-sm text-muted-foreground hover:text-foreground"
-                            >
-                                Tickets
-                            </Link>
-                        ) : null}
-                        <form action={signOutAction}>
-                            <Button
-                                type="submit"
-                                variant="ghost"
-                                size="sm"
-                                className="text-muted-foreground"
-                            >
-                                Sign out
-                            </Button>
-                        </form>
-                    </div>
-                </div>
-
-                <div className="px-4 py-4">
-                    <Button
-                        className="w-full"
-                        onClick={handleNewChat}
-                        disabled={isCreating}
-                    >
-                        <PlusIcon />
-                        New chat
-                    </Button>
-                </div>
-
-                <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-3 pb-4">
-                    {conversations.map((conversation) => (
-                        <div
-                            key={conversation.id}
-                            className={cn(
-                                "group flex items-center gap-1 rounded-xl",
-                                activeId === conversation.id && "bg-muted",
-                            )}
+    const SidebarContent = () => (
+        <>
+            <div className="flex items-center justify-between gap-3 border-b px-5 py-4">
+                <h1 className="text-base font-semibold tracking-tight">Supportly</h1>
+                <div className="flex items-center gap-2">
+                    {isAdmin ? (
+                        <Link
+                            href="/admin/tickets"
+                            className="text-sm text-muted-foreground hover:text-foreground"
                         >
-                            <button
-                                type="button"
-                                className="min-w-0 flex-1 truncate px-3 py-2.5 text-left text-sm leading-none"
-                                onClick={() => setSelectedId(conversation.id)}
-                            >
-                                {conversation.title}
-                            </button>
+                            Tickets
+                        </Link>
+                    ) : null}
+                    <form action={signOutAction}>
+                        <Button
+                            type="submit"
+                            variant="ghost"
+                            size="sm"
+                            className="text-muted-foreground"
+                        >
+                            Sign out
+                        </Button>
+                    </form>
+                </div>
+            </div>
 
-                            <DropdownMenu>
-                                <DropdownMenuTrigger
-                                    render={
-                                        <Button
-                                            variant="ghost"
-                                            size="icon-sm"
-                                            className="mr-1 shrink-0 opacity-70 group-hover:opacity-100"
-                                        />
+            <div className="px-4 py-4">
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={
+                                <span tabIndex={0} className="block">
+                                    <Button
+                                        className="w-full pointer-events-auto"
+                                        onClick={handleNewChat}
+                                        disabled={isCreating || conversations.length >= 4}
+                                    >
+                                        <PlusIcon />
+                                        New chat
+                                    </Button>
+                                </span>
+                            }
+                        />
+                        {conversations.length >= 4 && (
+                            <TooltipContent>
+                                You can only have up to 4 chats at a time.
+                            </TooltipContent>
+                        )}
+                    </Tooltip>
+                </TooltipProvider>
+            </div>
+
+            <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-3 pb-4">
+                {conversations.map((conversation) => (
+                    <div
+                        key={conversation.id}
+                        className={cn(
+                            "group flex items-center gap-1 rounded-xl",
+                            activeId === conversation.id && "bg-muted",
+                        )}
+                    >
+                        <button
+                            type="button"
+                            className="min-w-0 flex-1 truncate px-3 py-2.5 text-left text-sm leading-none"
+                            onClick={() => {
+                                setSelectedId(conversation.id);
+                                setIsMobileMenuOpen(false);
+                            }}
+                        >
+                            {conversation.title}
+                        </button>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger
+                                render={
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        className="mr-1 shrink-0 opacity-70 group-hover:opacity-100"
+                                    />
+                                }
+                            >
+                                <MoreHorizontalIcon />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                    onClick={() =>
+                                        openRename(conversation.id, conversation.title)
                                     }
                                 >
-                                    <MoreHorizontalIcon />
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuItem
-                                        onClick={() =>
-                                            openRename(conversation.id, conversation.title)
-                                        }
-                                    >
-                                        Rename
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                        onClick={() => handleDelete(conversation.id)}
-                                    >
-                                        Delete
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    ))}
-                </div>
+                                    Rename
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={() => handleDelete(conversation.id)}
+                                >
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                ))}
+            </div>
+            
+            <div className="border-t p-4 flex flex-col gap-2.5 text-sm text-muted-foreground">
+                <a href="https://www.linkedin.com/in/amrutraote" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-foreground transition-colors">
+                    <LinkedinIcon className="h-4 w-4" />
+                    LinkedIn
+                </a>
+                <a href="mailto:amrutclg@gmail.com" className="flex items-center gap-2 hover:text-foreground transition-colors">
+                    <MailIcon className="h-4 w-4" />
+                    amrutclg@gmail.com
+                </a>
+            </div>
+        </>
+    );
+
+    return (
+        <div className="flex h-svh min-h-0 bg-background">
+
+            {/* Desktop sidebar */}
+            <aside className="hidden w-72 shrink-0 flex-col border-r md:flex">
+                <SidebarContent />
             </aside>
 
+            {/* main chat section */}
             <main className="flex min-h-0 min-w-0 flex-1 flex-col">
+                {/* Mobile header */}
+                <div className="flex items-center border-b px-4 py-3 md:hidden">
+                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                        <SheetTrigger render={
+                            <Button variant="ghost" size="icon-sm" className="mr-2">
+                                <MenuIcon className="h-5 w-5" />
+                            </Button>
+                        } />
+                        <SheetContent side="left" className="flex w-72 flex-col p-0">
+                            <SidebarContent />
+                        </SheetContent>
+                    </Sheet>
+                    <h1 className="truncate text-base font-semibold tracking-tight">
+                        {selectedConversation ? selectedConversation.title : "Supportly"}
+                    </h1>
+                </div>
                 {selectedConversation ? (
                     <ChatMessages
                         conversationId={selectedConversation.id}
@@ -303,7 +360,7 @@ function ChatMessages({
 
     return (
         <>
-            <div className="border-b px-6 py-4">
+            <div className="hidden border-b px-6 py-4 md:block">
                 <h2 className="truncate text-base font-semibold tracking-tight">{title}</h2>
             </div>
 
@@ -498,5 +555,26 @@ function ChatMessages({
 function AgentBadge({ name }: { name: string }) {
     return (
         <span className="text-xs font-medium text-muted-foreground">{name}</span>
+    );
+}
+
+function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+            <rect width="4" height="12" x="2" y="9" />
+            <circle cx="4" cy="4" r="2" />
+        </svg>
     );
 }

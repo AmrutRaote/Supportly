@@ -1,3 +1,4 @@
+//  useMessages.ts makes sure your chat history is perfectly synced with the database
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,7 +8,7 @@ export function useMessages(conversationId: string | null) {
   return useQuery({
     queryKey: ["messages", conversationId],
     queryFn: () => getMessages(conversationId!),
-    enabled: !!conversationId,
+    enabled: !!conversationId, //If there is no active conversation selected yet, it won't pointlessly query the database.
   });
 }
 
@@ -23,6 +24,8 @@ export function useCreateMessage() {
       content: string;
     }) => createMessage(conversationId, content),
     onSuccess: (_, { conversationId }) => {
+      // After successfully saving the user's message to the database, it invalidates two caches:
+      // ["messages", conversationId] and ["conversations"]
       queryClient.invalidateQueries({ queryKey: ["messages", conversationId] });
       queryClient.invalidateQueries({ queryKey: ["conversations"] });
     },

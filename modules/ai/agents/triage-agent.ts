@@ -1,14 +1,17 @@
 import { Agent } from "@openai/agents";
 import { withHandoffInstructions } from "../prompts";
-import type { SupportContext } from "../context"
 import { billingAgent } from "./billing-agent";
 import { shippingAgent } from "./shipping-agent";
 import { technicalAgent } from "./technical-agent";
+import { createInputGuardrail, createOutputGuardrail } from "../gaurdrails";
+import { escalationTools } from "../tools/escalation-tools";
 
 const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
 
-export const triageAgent = Agent.create({
+import { SupportContext } from "../context";
+
+export const triageAgent = new Agent<SupportContext>({
   name: "Support Triage",
   instructions: withHandoffInstructions(`You are the front-line support triage agent for Supportly.
 Your job is to understand the customer's question and hand off to the right specialist:
