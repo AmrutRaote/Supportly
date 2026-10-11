@@ -1,7 +1,20 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { MoreHorizontalIcon, PlusIcon, SendIcon, MenuIcon, MailIcon } from "lucide-react";
+import {
+    MoreHorizontalIcon,
+    PlusIcon,
+    SendIcon,
+    MenuIcon,
+    MailIcon,
+    AlertCircleIcon,
+    BotIcon,
+    CreditCardIcon,
+    TruckIcon,
+    WrenchIcon,
+    HeadsetIcon,
+    SparklesIcon,
+} from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import {
@@ -44,6 +57,7 @@ import {
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -338,6 +352,7 @@ function ChatMessages({
     const [content, setContent] = useState("");
     const [editId, setEditId] = useState<string | null>(null);
     const [editContent, setEditContent] = useState("");
+    const [isDummyDataOpen, setIsDummyDataOpen] = useState(false);
 
     async function handleSend(e: React.FormEvent) {
         e.preventDefault();
@@ -375,8 +390,18 @@ function ChatMessages({
 
     return (
         <>
-            <div className="hidden items-center justify-between border-b px-6 py-3.5 md:flex">
-                <h2 className="truncate text-base font-semibold tracking-tight">{title}</h2>
+            <div className="hidden items-center justify-between border-b px-6 py-3 md:flex">
+                <div className="flex flex-col gap-0.5 min-w-0">
+                    <h2 className="truncate text-base font-semibold tracking-tight leading-tight">{title}</h2>
+                    <button
+                        type="button"
+                        onClick={() => setIsDummyDataOpen(true)}
+                        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer w-fit group"
+                    >
+                        <AlertCircleIcon className="size-3 text-amber-500 shrink-0" />
+                        <span className="underline-offset-2 group-hover:underline">Try on dummy data</span>
+                    </button>
+                </div>
                 <a
                     href="https://github.com/AmrutRaote/Supportly"
                     target="_blank"
@@ -391,9 +416,19 @@ function ChatMessages({
 
             <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
                 {messages.length === 0 && !isStreaming ? (
-                    <p className="py-16 text-center text-sm text-muted-foreground">
-                        Send a message to start the chat
-                    </p>
+                    <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+                        <p className="text-sm text-muted-foreground">
+                            Send a message to start the chat
+                        </p>
+                        <button
+                            type="button"
+                            onClick={() => setIsDummyDataOpen(true)}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground cursor-pointer rounded-full border border-border/70 bg-muted/40 hover:bg-muted/80 px-3.5 py-1.5 transition-all shadow-xs"
+                        >
+                            <AlertCircleIcon className="size-3.5 text-amber-500 shrink-0" />
+                            <span>Try on dummy data</span>
+                        </button>
+                    </div>
                 ) : (
                     <div className="mx-auto flex min-h-full w-full max-w-3xl flex-col justify-end">
                         <MessageGroup className="w-full gap-5">
@@ -573,13 +608,214 @@ function ChatMessages({
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={isDummyDataOpen} onOpenChange={setIsDummyDataOpen}>
+                <DialogContent className="sm:max-w-xl max-h-[85vh] flex flex-col p-0 overflow-hidden">
+                    <DialogHeader className="p-6 pb-2 pr-12">
+                        <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+                            <AlertCircleIcon className="size-5 text-amber-500 shrink-0" />
+                            Dummy Orders & Invoices Data
+                        </DialogTitle>
+                        <DialogDescription>
+                            Preloaded demo data you can use to test Supportly's specialized agents. Click any action or quick prompt below to populate the chat.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="flex-1 overflow-y-auto px-6 py-2 space-y-5 text-sm">
+                        {/* Orders Section */}
+                        <div className="space-y-2.5">
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                📦 Orders (Shipping Agent)
+                            </h3>
+                            <div className="grid gap-2.5 sm:grid-cols-2">
+                                <div className="rounded-lg border bg-card p-3 shadow-2xs space-y-1.5">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-semibold text-foreground">ORD-1001</span>
+                                        <span className="inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[11px] font-medium text-blue-600 dark:text-blue-400">
+                                            Shipped
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">Items: Wireless Keyboard, USB-C Hub</p>
+                                    <div className="text-xs font-mono text-muted-foreground">Track: TRK-7829104</div>
+                                    <p className="text-[11px] text-muted-foreground">ETA: 2026-08-16</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setContent("What is the status of my order ORD-1001?");
+                                            setIsDummyDataOpen(false);
+                                        }}
+                                        className="mt-1 text-xs text-primary hover:underline font-medium block cursor-pointer"
+                                    >
+                                        Ask about ORD-1001 →
+                                    </button>
+                                </div>
+
+                                <div className="rounded-lg border bg-card p-3 shadow-2xs space-y-1.5">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-semibold text-foreground">ORD-1002</span>
+                                        <span className="inline-flex items-center rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                                            Processing
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">Items: Monitor Stand</p>
+                                    <div className="text-xs font-mono text-muted-foreground">Track: TRK-3344556</div>
+                                    <p className="text-[11px] text-muted-foreground">ETA: 2026-08-20</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setContent("Can you track my package TRK-3344556?");
+                                            setIsDummyDataOpen(false);
+                                        }}
+                                        className="mt-1 text-xs text-primary hover:underline font-medium block cursor-pointer"
+                                    >
+                                        Ask about ORD-1002 →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Invoices Section */}
+                        <div className="space-y-2.5">
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                💳 Invoices (Billing Agent)
+                            </h3>
+                            <div className="grid gap-2.5 sm:grid-cols-2">
+                                <div className="rounded-lg border bg-card p-3 shadow-2xs space-y-1.5">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-semibold text-foreground">INV-1001</span>
+                                        <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                                            Paid
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">Supportly Pro — July 2026</p>
+                                    <p className="text-xs font-semibold text-foreground">$49.99</p>
+                                    <p className="text-[11px] text-muted-foreground">Due: 2026-07-01</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setContent("Can you get details for invoice INV-1001?");
+                                            setIsDummyDataOpen(false);
+                                        }}
+                                        className="mt-1 text-xs text-primary hover:underline font-medium block cursor-pointer"
+                                    >
+                                        Ask about INV-1001 →
+                                    </button>
+                                </div>
+
+                                <div className="rounded-lg border bg-card p-3 shadow-2xs space-y-1.5">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-semibold text-foreground">INV-1002</span>
+                                        <span className="inline-flex items-center rounded-full bg-orange-500/10 px-2 py-0.5 text-[11px] font-medium text-orange-600 dark:text-orange-400">
+                                            Pending
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">Supportly Pro — August 2026</p>
+                                    <p className="text-xs font-semibold text-foreground">$49.99</p>
+                                    <p className="text-[11px] text-muted-foreground">Due: 2026-08-01</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setContent("I want to request a refund for invoice INV-1002");
+                                            setIsDummyDataOpen(false);
+                                        }}
+                                        className="mt-1 text-xs text-primary hover:underline font-medium block cursor-pointer"
+                                    >
+                                        Ask for refund →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Quick Prompts */}
+                        <div className="space-y-2 rounded-lg bg-muted/50 p-3 border border-border/50">
+                            <h4 className="text-xs font-semibold text-foreground">💡 Click any prompt to populate:</h4>
+                            <div className="flex flex-wrap gap-1.5">
+                                {[
+                                    "Show all my invoices",
+                                    "Where is order ORD-1001?",
+                                    "Track parcel TRK-7829104",
+                                    "I need to speak to a human support agent",
+                                ].map((prompt) => (
+                                    <button
+                                        key={prompt}
+                                        type="button"
+                                        onClick={() => {
+                                            setContent(prompt);
+                                            setIsDummyDataOpen(false);
+                                        }}
+                                        className="rounded-md border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+                                    >
+                                        "{prompt}"
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <DialogFooter className="m-0 p-4 border-t bg-muted/30 flex items-center justify-end">
+                        <Button variant="outline" size="sm" onClick={() => setIsDummyDataOpen(false)}>
+                            Close
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
 
+const agentStyles: Record<
+    string,
+    { icon: typeof BotIcon; className: string }
+> = {
+    "Support Triage": {
+        icon: SparklesIcon,
+        className:
+            "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/30",
+    },
+    "Billing Agent": {
+        icon: CreditCardIcon,
+        className:
+            "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30",
+    },
+    "Shipping Agent": {
+        icon: TruckIcon,
+        className:
+            "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/30",
+    },
+    "Technical Agent": {
+        icon: WrenchIcon,
+        className:
+            "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30",
+    },
+    "Human Support": {
+        icon: HeadsetIcon,
+        className:
+            "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30",
+    },
+    System: {
+        icon: BotIcon,
+        className:
+            "bg-primary/10 text-primary border-primary/30",
+    },
+};
+
 function AgentBadge({ name }: { name: string }) {
+    const config = agentStyles[name] ?? {
+        icon: BotIcon,
+        className: "bg-primary/10 text-primary border-primary/30",
+    };
+    const Icon = config.icon;
+
     return (
-        <span className="text-xs font-medium text-muted-foreground">{name}</span>
+        <span
+            className={cn(
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold tracking-wide shadow-2xs transition-all",
+                config.className,
+            )}
+        >
+            <Icon className="size-3 shrink-0" />
+            <span>{name}</span>
+        </span>
     );
 }
 
