@@ -1,4 +1,6 @@
-# Supportly
+# Supportly 
+
+### Demo - https://supportly-gules.vercel.app/
 
 Supportly is an intelligent customer support application built using **Next.js**, **Prisma**, **Tailwind CSS**, and **@openai/agents**. It utilizes a multi-agent AI system designed to automatically handle customer inquiries across different domains, ranging from billing and shipping to technical support, while providing real-time streaming responses and maintaining strict safety guardrails.
 
