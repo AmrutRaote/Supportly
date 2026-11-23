@@ -173,11 +173,11 @@ importers:
         specifier: ^5.9.1
         version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(effect@3.20.0)(react-hook-form@7.89.0(@types/react@19.3.0)(react@19.2.8))(valibot@1.4.2(typescript@5.9.3))(zod@4.6.5)
       '@openai/agents':
-        specifier: ^0.19.0
-        version: 0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+        specifier: 0.22.0
+        version: 0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
       '@openai/agents-core':
-        specifier: ^0.19.0
-        version: 0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+        specifier: 0.22.0
+        version: 0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
       '@prisma/adapter-pg':
         specifier: ^7.10.0
         version: 7.10.0
@@ -1053,6 +1053,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@isaacs/fs-minipass@4.0.1':
+    resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
+    engines: {node: '>=18.0.0'}
+
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
@@ -1176,26 +1180,26 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@openai/agents-core@0.19.0':
-    resolution: {integrity: sha512-TCK6yEsTlpgCcKfQvqNWhWcWv56750tkDwlxLOY5rAujTIHWBoJ0eVrFoL1jxqcpxR3vAPt80qWJ2nCzRMvESQ==}
+  '@openai/agents-core@0.22.0':
+    resolution: {integrity: sha512-gz7z2eIG+6mlScUdBG7v1k0w9SGC3KGBU5Wko9YXs8gMynBroQR6qnDGuKRzOgq2x8N9UJzn3b/KQpIAtvN9pA==}
     peerDependencies:
       zod: ^4.0.0
     peerDependenciesMeta:
       zod:
         optional: true
 
-  '@openai/agents-openai@0.19.0':
-    resolution: {integrity: sha512-+TSSYjDOIJl34lqw+9nM310Xc6xHbhqnl1mMrUeYEJcEX4ATkzlfbT4nTsHCdmE7yAHuM1TXnoCW0FAzxdHOHQ==}
+  '@openai/agents-openai@0.22.0':
+    resolution: {integrity: sha512-HJkhp6PkXfa9CIzZoMLuM16YQVV8H/zQOIc0dEcWeNe4VOoev+dJXjBzlFF8SZnlGEb+4u5XAbJ85YHYqFWr2g==}
     peerDependencies:
       zod: ^4.0.0
 
-  '@openai/agents-realtime@0.19.0':
-    resolution: {integrity: sha512-XZgJWGagYWCNkpWtLieOYKTgampSo968tbrGlOWI0hnU5RowqyvfNGmpLfeUHAjDOZ+J7hBoWKQk2/DLcz6rmw==}
+  '@openai/agents-realtime@0.22.0':
+    resolution: {integrity: sha512-orY61QWNz6QaNfcu6RqPfaJ2QtXLB4Yw3ErVfOzIcMo/UxPRlZejrSiv5MqTyCNqy/J9s2tKgqdrrRGdjdnucg==}
     peerDependencies:
       zod: ^4.0.0
 
-  '@openai/agents@0.19.0':
-    resolution: {integrity: sha512-3kPyu2cmWT5IgIhgDVmEYZxhZUY+vcS7jKPWIk6OGdezGuYtsbNtsa9cpv2uKvSTKc9xe1Xq6l1DF31mRbmTzQ==}
+  '@openai/agents@0.22.0':
+    resolution: {integrity: sha512-ytI0Bebtd3at00nq+vTzkafdCqxbdD/xHEsIPCFdTQfjrXpGfeYQM8pPfdOnp0K4fnLshovHXEeQ/xXfg+SCPQ==}
     peerDependencies:
       zod: ^4.0.0
 
@@ -2273,6 +2277,10 @@ packages:
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
     engines: {node: '>= 20.19.0'}
+
+  chownr@3.0.0:
+    resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
+    engines: {node: '>=18'}
 
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
@@ -3803,6 +3811,14 @@ packages:
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
+  minipass@7.1.3:
+    resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
+  minizlib@3.1.0:
+    resolution: {integrity: sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==}
+    engines: {node: '>= 18'}
+
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -3940,13 +3956,14 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@7.28.0:
-    resolution: {integrity: sha512-HSY4fFLflQGYe2kvO0atm6/GzhD61gpyiOZZUvO4nptMUhuB1to2K3wwFpFqc5gfEK0SxyIIFiu1yE2MtygWcA==}
+  openai@7.62.0:
+    resolution: {integrity: sha512-dehzgY2anBfU3H+FfWHCVjhb9ZRYzahzNpvmMExTmMaeU11i51NJIMJPDctgLiP4+pCh53KIsLVQ66ucKyDNMA==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
       '@smithy/hash-node': '>=4.3.0 <5'
       '@smithy/signature-v4': '>=5.4.0 <6'
+      google-auth-library: '>=9.15.1 <12'
       undici: '>=5 <9'
       ws: ^8.21.0
       zod: ^3.25 || ^4.0
@@ -3956,6 +3973,8 @@ packages:
       '@smithy/hash-node':
         optional: true
       '@smithy/signature-v4':
+        optional: true
+      google-auth-library:
         optional: true
       undici:
         optional: true
@@ -4662,6 +4681,10 @@ packages:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
+  tar@7.5.22:
+    resolution: {integrity: sha512-MFO/QzvtAOmJbkhOaCTvbGcFN9L9b+JunIsDwaKljSOdcLMea3NJ1k9Usz/rjdfSXTq4dfzfeS7W4p4YOAAHeA==}
+    engines: {node: '>=18'}
+
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
 
@@ -4917,6 +4940,10 @@ packages:
 
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
+
+  yallist@5.0.0:
+    resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
+    engines: {node: '>=18'}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -5567,6 +5594,10 @@ snapshots:
   '@img/sharp-win32-x64@0.35.5':
     optional: true
 
+  '@isaacs/fs-minipass@4.0.1':
+    dependencies:
+      minipass: 7.1.3
+
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
@@ -5682,11 +5713,12 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@openai/agents-core@0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)':
+  '@openai/agents-core@0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)':
     dependencies:
       '@standard-schema/spec': 1.1.0
       debug: 4.4.3(supports-color@7.2.0)
-      openai: 7.28.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      openai: 7.62.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      tar: 7.5.22
     optionalDependencies:
       '@modelcontextprotocol/client': 2.3.1
       zod: 4.6.5
@@ -5694,27 +5726,30 @@ snapshots:
       - '@aws-sdk/credential-provider-node'
       - '@smithy/hash-node'
       - '@smithy/signature-v4'
+      - google-auth-library
       - supports-color
       - undici
       - ws
 
-  '@openai/agents-openai@0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)':
+  '@openai/agents-openai@0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)':
     dependencies:
-      '@openai/agents-core': 0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
-      openai: 7.28.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      '@openai/agents-core': 0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      openai: 7.62.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
       zod: 4.6.5
     transitivePeerDependencies:
       - '@aws-sdk/credential-provider-node'
       - '@smithy/hash-node'
       - '@smithy/signature-v4'
+      - google-auth-library
       - supports-color
       - undici
       - ws
 
-  '@openai/agents-realtime@0.19.0(supports-color@7.2.0)(undici@7.30.0)(zod@4.6.5)':
+  '@openai/agents-realtime@0.22.0(supports-color@7.2.0)(undici@7.30.0)(zod@4.6.5)':
     dependencies:
-      '@openai/agents-core': 0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      '@openai/agents-core': 0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
       '@types/ws': 8.18.2
+      openai: 7.62.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
       ws: 8.22.0
       zod: 4.6.5
     transitivePeerDependencies:
@@ -5722,22 +5757,24 @@ snapshots:
       - '@smithy/hash-node'
       - '@smithy/signature-v4'
       - bufferutil
+      - google-auth-library
       - supports-color
       - undici
       - utf-8-validate
 
-  '@openai/agents@0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)':
+  '@openai/agents@0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)':
     dependencies:
-      '@openai/agents-core': 0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
-      '@openai/agents-openai': 0.19.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
-      '@openai/agents-realtime': 0.19.0(supports-color@7.2.0)(undici@7.30.0)(zod@4.6.5)
-      openai: 7.28.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      '@openai/agents-core': 0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      '@openai/agents-openai': 0.22.0(supports-color@7.2.0)(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
+      '@openai/agents-realtime': 0.22.0(supports-color@7.2.0)(undici@7.30.0)(zod@4.6.5)
+      openai: 7.62.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5)
       zod: 4.6.5
     transitivePeerDependencies:
       - '@aws-sdk/credential-provider-node'
       - '@smithy/hash-node'
       - '@smithy/signature-v4'
       - bufferutil
+      - google-auth-library
       - supports-color
       - undici
       - utf-8-validate
@@ -6824,6 +6861,8 @@ snapshots:
   chokidar@5.0.0:
     dependencies:
       readdirp: 5.1.1
+
+  chownr@3.0.0: {}
 
   class-variance-authority@0.7.1:
     dependencies:
@@ -8674,6 +8713,12 @@ snapshots:
 
   minimist@1.2.8: {}
 
+  minipass@7.1.3: {}
+
+  minizlib@3.1.0:
+    dependencies:
+      minipass: 7.1.3
+
   ms@2.1.3: {}
 
   mysql2@3.15.3:
@@ -8829,7 +8874,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@7.28.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5):
+  openai@7.62.0(undici@7.30.0)(ws@8.22.0)(zod@4.6.5):
     optionalDependencies:
       undici: 7.30.0
       ws: 8.22.0
@@ -9667,6 +9712,14 @@ snapshots:
 
   tapable@2.3.3: {}
 
+  tar@7.5.22:
+    dependencies:
+      '@isaacs/fs-minipass': 4.0.1
+      chownr: 3.0.0
+      minipass: 7.1.3
+      minizlib: 3.1.0
+      yallist: 5.0.0
+
   tiny-invariant@1.3.3: {}
 
   tinyglobby@0.2.17:
@@ -9986,6 +10039,8 @@ snapshots:
   xtend@4.0.2: {}
 
   yallist@3.1.1: {}
+
+  yallist@5.0.0: {}
 
   yocto-queue@0.1.0: {}
 
