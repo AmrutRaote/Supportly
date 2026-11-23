@@ -6,7 +6,6 @@ import {
     PlusIcon,
     SendIcon,
     MenuIcon,
-    MailIcon,
     AlertCircleIcon,
     BotIcon,
     CreditCardIcon,
@@ -232,10 +231,6 @@ export function ChatApp({ isAdmin = false }: { isAdmin?: boolean }) {
                 <a href="https://www.linkedin.com/in/amrutraote" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-foreground transition-colors">
                     <LinkedinIcon className="h-4 w-4" />
                     LinkedIn
-                </a>
-                <a href="mailto:amrutclg@gmail.com" className="flex items-center gap-2 hover:text-foreground transition-colors">
-                    <MailIcon className="h-4 w-4" />
-                    amrutclg@gmail.com
                 </a>
             </div>
         </>
